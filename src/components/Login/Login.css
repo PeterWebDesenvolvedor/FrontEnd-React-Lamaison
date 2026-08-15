@@ -1,0 +1,215 @@
+/* src/components/Login/Login.css */
+/* @import url("../../src/css/global.css"); */
+:root {
+  --laranja-escuro: #a97421;
+  --laranja-claro: #c29c6b;
+  --bege-claro: #f8f5f0;
+  --queimado: #604a35;
+  --preto: #302f32;
+  --cinza-claro: #e4e4e4;
+  --sombra: rgba(0, 0, 0, 0.6);
+}
+
+.containerLogin {
+  max-width: 100%;
+  min-width: 330px;
+  height: 100vh;
+  background-color: var(--laranja-escuro);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Source Sans", sans-serif;
+}
+
+.formLogin {
+  width: 420px;
+  min-height: 450px;
+  background-color: var(--bege-claro);
+  opacity: 0.95;
+  border-radius: 10px;
+  padding: 30px 25px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.titulo {
+  display: flex;
+  flex-direction: column;
+  color: var(--preto);
+  text-align: center;
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.titulo h1 {
+  font-size: 2.8rem;
+  font-weight: bold;
+  color: var(--laranja-claro);
+  margin-bottom: 5px;
+}
+
+.titulo h2 {
+  text-align: center;
+  font-size: 1.1rem;
+  opacity: 0.7;
+  font-weight: normal;
+}
+
+.campo {
+  width: 100%;
+  margin-top: 12px;
+  margin-bottom: 8px;
+  display: flex;
+  flex-direction: column;
+}
+
+.campo label {
+  font-size: 1rem;
+  color: var(--preto);
+  font-weight: bold;
+  margin-bottom: 4px;
+}
+
+.campo input {
+  width: 100%;
+  height: 38px;
+  border: 2px solid var(--cinza-claro);
+  outline: none;
+  border-radius: 6px;
+  font-family: Arial, Helvetica, sans-serif;
+  padding: 0 12px;
+  font-size: 1rem;
+  background-color: white;
+  transition: all 0.3s ease;
+  color: var(--preto);
+}
+
+.campo input:focus {
+  border-color: var(--laranja-escuro);
+  box-shadow: 0 0 0 3px rgba(169, 116, 33, 0.15);
+}
+
+.campo input:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.botaoContainer {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.btnEntrar {
+  width: 100%;
+  max-width: 200px;
+  height: 45px;
+  border-radius: 8px;
+  border: none;
+  outline: none;
+  background-color: var(--queimado);
+  color: var(--bege-claro);
+  font-size: 1.1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btnEntrar:hover:not(:disabled) {
+  background-color: var(--laranja-claro);
+  transform: scale(1.02);
+}
+
+.btnEntrar:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.errorMessage {
+  width: 100%;
+  background: #f8d7da;
+  color: #721c24;
+  padding: 10px 15px;
+  border-radius: 8px;
+  border: 1px solid #f5c6cb;
+  font-size: 13px;
+  text-align: center;
+  display: none;
+  margin-bottom: 10px;
+}
+
+.errorMessage.show {
+  display: block;
+}
+
+.toggleContainer {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 1px solid var(--cinza-claro);
+}
+
+.btnToggle {
+  background: none;
+  border: none;
+  color: var(--laranja-escuro);
+  font-size: 0.9rem;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  padding: 5px 10px;
+}
+
+.btnToggle:hover:not(:disabled) {
+  color: var(--laranja-claro);
+  text-decoration: underline;
+}
+
+.btnToggle:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.infoUsuario {
+  width: 100%;
+  margin-top: 12px;
+  padding: 10px;
+  background: var(--bege-claro);
+  border-radius: 6px;
+  border: 1px dashed var(--cinza-claro);
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--queimado);
+}
+
+.infoUsuario strong {
+  color: var(--laranja-escuro);
+}
+
+@media (max-width: 480px) {
+  .formLogin {
+    width: 90%;
+    padding: 20px 15px;
+    min-height: 400px;
+  }
+
+  .titulo h1 {
+    font-size: 2.2rem;
+  }
+
+  .campo input {
+    height: 35px;
+    font-size: 0.9rem;
+  }
+
+  .btnEntrar {
+    max-width: 100%;
+    height: 40px;
+  }
+}
