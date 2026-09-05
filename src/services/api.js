@@ -3,7 +3,7 @@ import axios from 'axios';
 
 // 🔴 IMPORTANTE: Verifique se o Java está rodando na porta 8080!
 // Se estiver em outra porta (ex: 8070), troque aqui.
-const API_URL = 'http://localhost:8080/api';
+const API_URL = 'http://localhost:8070/api';
 
 const api = axios.create({
   baseURL: API_URL,
