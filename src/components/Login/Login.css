@@ -1,37 +1,45 @@
-/* src/components/Login/Login.css */
-/* @import url("../../src/css/global.css"); */
-:root {
-  --laranja-escuro: #a97421;
-  --laranja-claro: #c29c6b;
-  --bege-claro: #f8f5f0;
-  --queimado: #604a35;
-  --preto: #302f32;
-  --cinza-claro: #e4e4e4;
-  --sombra: rgba(0, 0, 0, 0.6);
-}
-
 .containerLogin {
-  max-width: 100%;
-  min-width: 330px;
+  width: 100vw;
   height: 100vh;
-  background-color: var(--laranja-escuro);
+  /* Fundo Parallax sofisticado com imagem de alta qualidade e overlay escuro */
+  background:
+    linear-gradient(rgba(26, 25, 24, 0.75), rgba(74, 59, 50, 0.85)),
+    url("https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?q=80&w=1920&auto=format&fit=crop")
+      no-repeat center center fixed;
+  background-size: cover;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: "Source Sans", sans-serif;
+  font-family: "Source Sans 3", sans-serif;
+  overflow: hidden;
 }
 
 .formLogin {
-  width: 420px;
-  min-height: 450px;
-  background-color: var(--bege-claro);
-  opacity: 0.95;
-  border-radius: 10px;
-  padding: 30px 25px;
+  width: 440px;
+  min-height: 480px;
+  /* Efeito vidro fosco moderno */
+  background: rgba(244, 241, 234, 0.88);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 20px;
+  padding: 40px 35px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
+  animation: fadeInScale 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
 }
 
 .titulo {
@@ -40,106 +48,104 @@
   color: var(--preto);
   text-align: center;
   width: 100%;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
 }
 
 .titulo h1 {
-  font-size: 2.8rem;
-  font-weight: bold;
-  color: var(--laranja-claro);
+  font-size: 2.6rem;
+  font-weight: 700;
+  color: var(--laranja-escuro);
   margin-bottom: 5px;
+  font-family: "Playfair Display", serif;
 }
 
 .titulo h2 {
   text-align: center;
-  font-size: 1.1rem;
-  opacity: 0.7;
-  font-weight: normal;
+  font-size: 1rem;
+  color: var(--queimado);
+  font-weight: 400;
+  letter-spacing: 0.5px;
 }
 
 .campo {
   width: 100%;
-  margin-top: 12px;
-  margin-bottom: 8px;
+  margin-top: 15px;
+  margin-bottom: 10px;
   display: flex;
   flex-direction: column;
 }
 
 .campo label {
-  font-size: 1rem;
+  font-size: 0.95rem;
   color: var(--preto);
-  font-weight: bold;
-  margin-bottom: 4px;
+  font-weight: 600;
+  margin-bottom: 6px;
 }
 
 .campo input {
   width: 100%;
-  height: 38px;
-  border: 2px solid var(--cinza-claro);
+  height: 45px;
+  border: 2px solid rgba(212, 175, 55, 0.3);
   outline: none;
-  border-radius: 6px;
-  font-family: Arial, Helvetica, sans-serif;
-  padding: 0 12px;
+  border-radius: 10px;
+  font-family: "Source Sans 3", sans-serif;
+  padding: 0 15px;
   font-size: 1rem;
-  background-color: white;
+  background-color: rgba(255, 255, 255, 0.9);
   transition: all 0.3s ease;
   color: var(--preto);
 }
 
 .campo input:focus {
   border-color: var(--laranja-escuro);
-  box-shadow: 0 0 0 3px rgba(169, 116, 33, 0.15);
-}
-
-.campo input:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
+  background-color: #fff;
+  box-shadow: 0 0 0 4px rgba(184, 134, 11, 0.15);
 }
 
 .botaoContainer {
   width: 100%;
   display: flex;
   justify-content: center;
-  margin-top: 20px;
+  margin-top: 25px;
 }
 
 .btnEntrar {
   width: 100%;
-  max-width: 200px;
-  height: 45px;
-  border-radius: 8px;
+  height: 48px;
+  border-radius: 10px;
   border: none;
   outline: none;
-  background-color: var(--queimado);
+  background: linear-gradient(135deg, var(--queimado), var(--preto));
   color: var(--bege-claro);
   font-size: 1.1rem;
-  font-weight: bold;
+  font-weight: 700;
   cursor: pointer;
+  box-shadow: 0 6px 20px rgba(74, 59, 50, 0.3);
   transition: all 0.3s ease;
 }
 
 .btnEntrar:hover:not(:disabled) {
-  background-color: var(--laranja-claro);
-  transform: scale(1.02);
-}
-
-.btnEntrar:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-  transform: none;
+  background: linear-gradient(
+    135deg,
+    var(--laranja-escuro),
+    var(--laranja-claro)
+  );
+  color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(184, 134, 11, 0.4);
 }
 
 .errorMessage {
   width: 100%;
-  background: #f8d7da;
+  background: rgba(248, 215, 218, 0.9);
   color: #721c24;
-  padding: 10px 15px;
+  padding: 12px 15px;
   border-radius: 8px;
   border: 1px solid #f5c6cb;
   font-size: 13px;
   text-align: center;
   display: none;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
 }
 
 .errorMessage.show {
@@ -150,16 +156,16 @@
   width: 100%;
   display: flex;
   justify-content: center;
-  margin-top: 15px;
-  padding-top: 15px;
-  border-top: 1px solid var(--cinza-claro);
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(212, 175, 55, 0.2);
 }
 
 .btnToggle {
   background: none;
   border: none;
   color: var(--laranja-escuro);
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   cursor: pointer;
   font-weight: 600;
   transition: all 0.3s ease;
@@ -171,20 +177,15 @@
   text-decoration: underline;
 }
 
-.btnToggle:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
 .infoUsuario {
   width: 100%;
-  margin-top: 12px;
-  padding: 10px;
-  background: var(--bege-claro);
-  border-radius: 6px;
-  border: 1px dashed var(--cinza-claro);
+  margin-top: 15px;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.6);
+  border-radius: 8px;
+  border: 1px dashed rgba(212, 175, 55, 0.4);
   text-align: center;
-  font-size: 0.85rem;
+  font-size: 0.9rem;
   color: var(--queimado);
 }
 
@@ -195,21 +196,11 @@
 @media (max-width: 480px) {
   .formLogin {
     width: 90%;
-    padding: 20px 15px;
-    min-height: 400px;
+    padding: 30px 20px;
+    min-height: 420px;
   }
 
   .titulo h1 {
     font-size: 2.2rem;
-  }
-
-  .campo input {
-    height: 35px;
-    font-size: 0.9rem;
-  }
-
-  .btnEntrar {
-    max-width: 100%;
-    height: 40px;
   }
 }

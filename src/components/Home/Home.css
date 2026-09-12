@@ -1,94 +1,188 @@
-/* src/components/Home/Home.css */
-:root {
-  --laranja-escuro: #a97421;
-  --laranja-claro: #c29c6b;
-  --bege-claro: #f8f5f0;
-  --queimado: #604a35;
-  --preto: #302f32;
-  --cinza-claro: #e4e4e4;
-  --sombra: rgba(0, 0, 0, 0.6);
-}
-
 .containerHome {
   min-height: 100vh;
   background-color: var(--bege-claro);
-  font-family: "Source Sans Pro", sans-serif;
-  padding: 20px;
+  font-family: "Source Sans 3", sans-serif;
 }
 
-.cardsContainer {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 25px;
-  margin-top: 20px;
+/* EFEITO PARALLAX NA SEÇÃO DE DESTAQUE / HEADER */
+.headerHome {
+  background:
+    linear-gradient(rgba(26, 25, 24, 0.7), rgba(74, 59, 50, 0.8)),
+    url("https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?q=80&w=1920&auto=format&fit=crop")
+      no-repeat center center;
+  background-size: cover;
+  background-attachment: fixed; /* O segredo do Parallax clássico */
+  padding: 80px 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: white;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  position: relative;
+  z-index: 10;
 }
 
-.card {
-  background: white;
-  padding: 25px 20px;
-  border-radius: 12px;
-  text-align: center;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-  transition: all 0.3s ease;
-  border: 1px solid transparent;
-}
-
-.card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
-  border-color: var(--laranja-claro);
-}
-
-.cardIcon {
-  font-size: 2.5rem;
-  margin-bottom: 10px;
-}
-
-.card h3 {
-  color: var(--laranja-escuro);
-  font-size: 1.2rem;
-  margin-bottom: 5px;
+.logoHome h1 {
+  font-size: 2rem;
+  color: var(--laranja-claro);
   font-family: "Playfair Display", serif;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
 }
 
-.card p {
-  color: var(--queimado);
-  font-size: 0.95rem;
-  margin-bottom: 10px;
+.userInfo {
+  display: flex;
+  align-items: center;
+  gap: 20px;
 }
 
-.btnCard {
-  padding: 10px 25px;
-  background: var(--laranja-escuro);
+.userInfo span {
+  font-weight: 600;
+  color: var(--bege-claro);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.btnLogout {
+  padding: 10px 22px;
+  background: linear-gradient(135deg, #d9534f, #c9302c);
   color: white;
   border: none;
-  border-radius: 6px;
+  border-radius: 8px;
   cursor: pointer;
   font-weight: 600;
+  box-shadow: 0 4px 12px rgba(217, 83, 79, 0.4);
   transition: all 0.3s ease;
-  width: 20%;
 }
 
-.btnCard:hover {
-  background: var(--laranja-claro);
-  transform: scale(1.02);
+.btnLogout:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(217, 83, 79, 0.6);
 }
 
-.btnCard:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-  transform: none;
+.mainHome {
+  padding: 50px 40px;
+  max-width: 1300px;
+  margin: 0 auto;
+}
+
+.welcomeSection {
+  margin-bottom: 40px;
+  text-align: center;
 }
 
 .welcomeSection h2 {
-  font-size: 1.8rem;
+  font-size: 2.8rem;
   color: var(--laranja-escuro);
-  margin-bottom: 5px;
+  margin-bottom: 10px;
   font-family: "Playfair Display", serif;
 }
 
 .welcomeSection p {
   color: var(--queimado);
-  font-size: 1.1rem;
+  font-size: 1.2rem;
+  font-weight: 400;
+}
+
+.cardsContainer {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 30px;
+  margin-top: 30px;
+}
+
+/* Cards com Glassmorphism e elevação elegante */
+.card {
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(10px);
+  padding: 35px 25px;
+  border-radius: 16px;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  position: relative;
+  overflow: hidden;
+}
+
+.card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(
+    90deg,
+    var(--laranja-escuro),
+    var(--laranja-claro)
+  );
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(184, 134, 11, 0.15);
+  border-color: var(--laranja-claro);
+}
+
+.card:hover::before {
+  opacity: 1;
+}
+
+.cardIcon {
+  font-size: 3rem;
   margin-bottom: 20px;
+  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1));
+}
+
+.card h3 {
+  color: var(--laranja-escuro);
+  font-size: 1.4rem;
+  margin-bottom: 12px;
+}
+
+.card p {
+  color: var(--queimado);
+  font-size: 1rem;
+  margin-bottom: 20px;
+  line-height: 1.5;
+}
+
+.btnCard {
+  padding: 12px 28px;
+  background: linear-gradient(
+    135deg,
+    var(--laranja-escuro),
+    var(--laranja-claro)
+  );
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  box-shadow: 0 4px 15px rgba(184, 134, 11, 0.3);
+  transition: all 0.3s ease;
+}
+
+.btnCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(184, 134, 11, 0.5);
+}
+
+@media (max-width: 768px) {
+  .headerHome {
+    flex-direction: column;
+    gap: 15px;
+    padding: 40px 20px;
+    text-align: center;
+    background-attachment: scroll; /* Desativa parallax em mobile para melhor performance */
+  }
+
+  .mainHome {
+    padding: 20px;
+  }
+
+  .welcomeSection h2 {
+    font-size: 2rem;
+  }
 }
