@@ -186,8 +186,8 @@ const Login = () => {
                   };
                   const fakeToken = "token-falso-123456";
 
-                  localStorage.setItem("authToken", fakeToken);
-                  localStorage.setItem("user", JSON.stringify(fakeUser));
+                  sessionStorage.setItem("authToken", fakeToken);
+                  sessionStorage.setItem("user", JSON.stringify(fakeUser));
 
                   alert(
                     "Usuário criado no LocalStorage! Recarregue a página e clique em Entrar.",

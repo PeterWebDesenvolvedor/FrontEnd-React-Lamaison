@@ -67,8 +67,10 @@ const Produtos = () => {
       return;
     }
 
-    // Busca a categoria selecionada na lista para extrair os campos dela
-    const catEncontrada = categoriasSalvas.find((c) => c.id === idSelecionado);
+    // Usando String() para evitar bugs caso o ID seja number no BD e string no select
+    const catEncontrada = categoriasSalvas.find(
+      (c) => String(c.id) === String(idSelecionado),
+    );
 
     // Popula os campos dinâmicos vinculados a esta categoria
     setCamposDinamicosProduto(catEncontrada?.campos || []);
@@ -247,6 +249,29 @@ const Produtos = () => {
             <p style={{ fontSize: "0.9rem", fontStyle: "italic" }}>
               {p.descricao}
             </p>
+
+            {/* Renderização dinâmica dos atributos salvos no produto, caso existam */}
+            {p.atributosDinamicos &&
+              Object.keys(p.atributosDinamicos).length > 0 && (
+                <div
+                  style={{
+                    marginTop: "10px",
+                    borderTop: "1px dashed #ccc",
+                    paddingTop: "8px",
+                  }}
+                >
+                  {Object.entries(p.atributosDinamicos).map(
+                    ([chave, valor], idx) => (
+                      <p
+                        key={idx}
+                        style={{ fontSize: "0.85rem", margin: "2px 0" }}
+                      >
+                        <strong>{chave}:</strong> {String(valor)}
+                      </p>
+                    ),
+                  )}
+                </div>
+              )}
           </div>
         ))}
       </div>

@@ -51,7 +51,7 @@
     var(--laranja-escuro),
     var(--laranja-claro)
   );
-  color: #fff;
+  color: var(--bege-claroJ);
   box-shadow: 0 4px 15px rgba(184, 134, 11, 0.4);
   transform: translateX(5px);
 }

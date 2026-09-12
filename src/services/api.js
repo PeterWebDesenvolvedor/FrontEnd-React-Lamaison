@@ -8,13 +8,13 @@ const api = axios.create({
   headers: {
     "Content-Type": "application/json",
   },
-  withCredentials: true, // Importante para enviar e receber Cookies (seu Java usa cookies para refresh token)
+  withCredentials: true,
 });
 
-// Interceptor para adicionar token (Seu Java usa Bearer Token)
+// Interceptor para adicionar token do sessionStorage
 api.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem("authToken");
+    const token = sessionStorage.getItem("authToken");
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -28,8 +28,8 @@ api.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response?.status === 401) {
-      localStorage.removeItem("authToken");
-      localStorage.removeItem("user");
+      sessionStorage.removeItem("authToken");
+      sessionStorage.removeItem("user");
       window.location.href = "/login";
     }
     return Promise.reject(error);

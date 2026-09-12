@@ -1,0 +1,38 @@
+.secao-campos-dinamicos {
+  margin-top: 20px;
+  padding: 20px;
+  background: rgba(212, 175, 55, 0.05);
+  border: 1px dashed var(--laranja-claro);
+  border-radius: 12px;
+  animation: fadeIn 0.4s ease-in-out;
+}
+
+.secao-campos-dinamicos h3 {
+  font-size: 1.1rem;
+  color: var(--laranja-escuro);
+  margin-bottom: 15px;
+  font-family: "Playfair Display", serif;
+}
+
+.input-imagem-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.arquivo-selecionado {
+  font-size: 0.85rem;
+  color: var(--queimado);
+  font-style: italic;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
