@@ -51,7 +51,7 @@
     var(--laranja-escuro),
     var(--laranja-claro)
   );
-  color: var(--bege-claroJ);
+  color: var(--bege-claro); /* ✅ Corrigido */
   box-shadow: 0 4px 15px rgba(184, 134, 11, 0.4);
   transform: translateX(5px);
 }

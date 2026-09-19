@@ -1,7 +1,9 @@
+// src/components/Produtos/Produtos.jsx
 import React, { useState, useEffect } from "react";
 import { useAuth } from "../../contexts/AuthContext";
 import { produtoService } from "../../services/produtoService";
 import { categoriaService } from "../../services/categoriaService";
+import { solicitacaoService } from "../../services/solicitacaoService";
 import "../Home/Home.css";
 
 const Produtos = () => {
@@ -27,7 +29,7 @@ const Produtos = () => {
   const [novaCategoriaId, setNovaCategoriaId] = useState("");
   const [camposDinamicosProduto, setCamposDinamicosProduto] = useState([]);
   const [valoresCamposDinamicos, setValoresCamposDinamicos] = useState({});
-  const [novaDescricao, setNovoDescricao] = useState("");
+  const [novaDescricao, setNovaDescricao] = useState("");
 
   // Estados para gerenciar os campos no Modal de Categoria (Passo 2)
   const [nomeCampoInput, setNomeCampoInput] = useState("");
@@ -35,6 +37,8 @@ const Produtos = () => {
   const [listaCamposPersonalizados, setListaCamposPersonalizados] = useState(
     [],
   );
+
+  const isAdmin = user?.role === "ADMIN";
 
   // 🔹 Carregar produtos e categorias do banco
   const carregarDadosIniciais = async () => {
@@ -67,12 +71,10 @@ const Produtos = () => {
       return;
     }
 
-    // Usando String() para evitar bugs caso o ID seja number no BD e string no select
     const catEncontrada = categoriasSalvas.find(
       (c) => String(c.id) === String(idSelecionado),
     );
 
-    // Popula os campos dinâmicos vinculados a esta categoria
     setCamposDinamicosProduto(catEncontrada?.campos || []);
   };
 
@@ -194,6 +196,48 @@ const Produtos = () => {
     setListaCamposPersonalizados([]);
   };
 
+  // 🔹 ADMIN: Excluir produto diretamente
+  const handleExcluirProduto = async (produto) => {
+    if (
+      !window.confirm(
+        `Excluir "${produto.nome}"? Esta ação não pode ser desfeita.`,
+      )
+    )
+      return;
+    try {
+      await produtoService.deletar(produto.id);
+      alert("Produto excluído com sucesso!");
+      carregarDadosIniciais();
+    } catch (err) {
+      alert("Erro ao excluir: " + err.message);
+    }
+  };
+
+  // 🔹 VENDEDOR: Solicitar exclusão ao ADMIN
+  const handleSolicitarExclusao = async (produto) => {
+    const motivo = prompt(
+      `Motivo da solicitação de exclusão de "${produto.nome}":`,
+    );
+    if (!motivo || !motivo.trim()) return;
+
+    try {
+      await solicitacaoService.criar({
+        tipo: "EXCLUSAO_PRODUTO",
+        produtoId: produto.id,
+        produtoNome: produto.nome,
+        solicitanteId: user?.id,
+        solicitanteNome: user?.name,
+        solicitanteEmail: user?.email,
+        motivo,
+        status: "PENDENTE",
+        destino: "ADMIN",
+      });
+      alert("✅ Solicitação enviada ao administrador! Aguarde a aprovação.");
+    } catch (err) {
+      alert("Erro ao enviar solicitação: " + err.message);
+    }
+  };
+
   if (loading && produtos.length === 0)
     return (
       <div className="containerHome">
@@ -209,12 +253,21 @@ const Produtos = () => {
           justifyContent: "space-between",
           alignItems: "center",
           marginBottom: "20px",
+          flexWrap: "wrap",
+          gap: "10px",
         }}
       >
-        <h2>Produtos</h2>
+        <div>
+          <h2>Produtos</h2>
+          <p style={{ fontSize: "0.9rem", color: "var(--queimado)" }}>
+            {isAdmin
+              ? "Você tem acesso total para cadastrar e excluir produtos."
+              : "Você pode cadastrar produtos. Para excluir, envie uma solicitação ao administrador."}
+          </p>
+        </div>
 
-        {user?.role === "ADMIN" && (
-          <div className="btnProdutos" style={{ display: "flex", gap: "10px" }}>
+        <div className="btnProdutos" style={{ display: "flex", gap: "10px" }}>
+          {isAdmin && (
             <button
               onClick={() => {
                 setEtapaCategoria(1);
@@ -225,55 +278,84 @@ const Produtos = () => {
             >
               + Categoria
             </button>
-            <button
-              onClick={() => setShowModalCadastrar(true)}
-              className="btnCard"
-              style={{ maxWidth: "200px", width: "fit-content" }}
-            >
-              + Cadastrar Produto
-            </button>
-          </div>
-        )}
+          )}
+          <button
+            onClick={() => setShowModalCadastrar(true)}
+            className="btnCard"
+            style={{ maxWidth: "200px", width: "fit-content" }}
+          >
+            + Cadastrar Produto
+          </button>
+        </div>
       </div>
 
       <div className="cardsContainer">
-        {produtos.map((p) => (
-          <div className="card" key={p.id}>
-            <h3>{p.nome}</h3>
-            <p>
-              <strong>Categoria:</strong> {p.categoriaNome || p.categoria}
-            </p>
-            <p style={{ color: "var(--laranja-escuro)", fontWeight: "bold" }}>
-              R$ {p.valor?.toLocaleString("pt-BR")}
-            </p>
-            <p style={{ fontSize: "0.9rem", fontStyle: "italic" }}>
-              {p.descricao}
-            </p>
+        {produtos.length === 0 ? (
+          <p style={{ color: "var(--queimado)" }}>
+            Nenhum produto cadastrado ainda.
+          </p>
+        ) : (
+          produtos.map((p) => (
+            <div className="card" key={p.id}>
+              <h3>{p.nome}</h3>
+              <p>
+                <strong>Categoria:</strong> {p.categoriaNome || p.categoria}
+              </p>
+              <p style={{ color: "var(--laranja-escuro)", fontWeight: "bold" }}>
+                R$ {p.valor?.toLocaleString("pt-BR")}
+              </p>
+              <p style={{ fontSize: "0.9rem", fontStyle: "italic" }}>
+                {p.descricao}
+              </p>
 
-            {/* Renderização dinâmica dos atributos salvos no produto, caso existam */}
-            {p.atributosDinamicos &&
-              Object.keys(p.atributosDinamicos).length > 0 && (
-                <div
-                  style={{
-                    marginTop: "10px",
-                    borderTop: "1px dashed #ccc",
-                    paddingTop: "8px",
-                  }}
+              {/* Renderização dinâmica dos atributos salvos no produto */}
+              {p.atributosDinamicos &&
+                Object.keys(p.atributosDinamicos).length > 0 && (
+                  <div
+                    style={{
+                      marginTop: "10px",
+                      borderTop: "1px dashed #ccc",
+                      paddingTop: "8px",
+                    }}
+                  >
+                    {Object.entries(p.atributosDinamicos).map(
+                      ([chave, valor], idx) => (
+                        <p
+                          key={idx}
+                          style={{ fontSize: "0.85rem", margin: "2px 0" }}
+                        >
+                          <strong>{chave}:</strong> {String(valor)}
+                        </p>
+                      ),
+                    )}
+                  </div>
+                )}
+
+              {/* 🔘 Botão Excluir — comportamento por role */}
+              {isAdmin ? (
+                <button
+                  className="btnCard"
+                  style={{ background: "#dc3545", marginTop: "15px" }}
+                  onClick={() => handleExcluirProduto(p)}
                 >
-                  {Object.entries(p.atributosDinamicos).map(
-                    ([chave, valor], idx) => (
-                      <p
-                        key={idx}
-                        style={{ fontSize: "0.85rem", margin: "2px 0" }}
-                      >
-                        <strong>{chave}:</strong> {String(valor)}
-                      </p>
-                    ),
-                  )}
-                </div>
+                  🗑️ Excluir
+                </button>
+              ) : (
+                <button
+                  className="btnCard"
+                  style={{
+                    background: "#ffc107",
+                    color: "#333",
+                    marginTop: "15px",
+                  }}
+                  onClick={() => handleSolicitarExclusao(p)}
+                >
+                  📩 Solicitar Exclusão
+                </button>
               )}
-          </div>
-        ))}
+            </div>
+          ))
+        )}
       </div>
 
       {/* MODAL DE CADASTRO DE PRODUTO */}
@@ -545,7 +627,7 @@ const Produtos = () => {
         </div>
       )}
 
-      {/* MODAL DE CATEGORIA EM 2 ETAPAS */}
+      {/* MODAL DE CATEGORIA EM 2 ETAPAS (apenas ADMIN) */}
       {showModalCategoria && (
         <div
           style={{
